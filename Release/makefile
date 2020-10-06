@@ -66,7 +66,7 @@ all: GPUart_Git
 GPUart_Git: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: NVCC Linker'
-	/usr/local/cuda-8.0/bin/nvcc --cudart static --relocatable-device-code=true -gencode arch=compute_53,code=compute_53 -gencode arch=compute_53,code=sm_53 -m64 -ccbin aarch64-linux-gnu-g++ -link -o  "GPUart_Git" $(OBJS) $(USER_OBJS) $(LIBS)
+	/usr/local/cuda-11.1/bin/nvcc --cudart static --relocatable-device-code=true -gencode arch=compute_53,code=compute_53 -gencode arch=compute_53,code=sm_53 -m64 -ccbin x86_64-linux-gnu-g++ -link -o  "GPUart_Git" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
