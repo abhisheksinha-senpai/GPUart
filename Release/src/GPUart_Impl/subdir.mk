@@ -26,8 +26,7 @@ OBJS += \
 src/GPUart_Impl/%.o: ../src/GPUart_Impl/%.cu
 	@echo 'Building file: $<'
 	@echo 'Invoking: NVCC Compiler'
-	/usr/local/cuda-11.1/bin/nvcc -O3 -ccbin x86_64-linux-gnu-g++ -gencode arch=compute_53,code=sm_53 -m64 -odir "src/GPUart_Impl" -M -o "$(@:%.o=%.d)" "$<"
-	/usr/local/cuda-11.1/bin/nvcc -O3 --compile --relocatable-device-code=true -gencode arch=compute_53,code=compute_53 -gencode arch=compute_53,code=sm_53 -m64 -ccbin x86_64-linux-gnu-g++  -x cu -o  "$@" "$<"
+	/usr/local/cuda-11.1/bin/nvcc -O3 -gencode arch=compute_53,code=compute_53 -gencode arch=compute_53,code=sm_53 -m64 -x cu -dc -o "$@" "$<" -lcudart -lcudadevrt
 	@echo 'Finished building: $<'
 	@echo ' '
 

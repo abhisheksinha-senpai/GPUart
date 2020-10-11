@@ -15,9 +15,9 @@ RM := rm -rf
 -include src/SW-C/Scheduler/subdir.mk
 -include src/SW-C/MatrMul/subdir.mk
 -include src/GPUart_Scheduler/subdir.mk
--include src/GPUart_Impl/subdir.mk
 -include src/GPUart_Abstraction/subdir.mk
 -include src/GPUart/subdir.mk
+-include src/GPUart_Impl/subdir.mk
 
 OS_SUFFIX := $(subst Linux,linux,$(subst Darwin/x86_64,darwin,$(shell uname -s)/$(shell uname -m)))
 
@@ -66,7 +66,8 @@ all: GPUart_Git
 GPUart_Git: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: NVCC Linker'
-	/usr/local/cuda-11.1/bin/nvcc --cudart static --relocatable-device-code=true -gencode arch=compute_53,code=compute_53 -gencode arch=compute_53,code=sm_53 -m64 -ccbin x86_64-linux-gnu-g++ -link -o  "GPUart_Git" $(OBJS) $(USER_OBJS) $(LIBS)
+	/usr/local/cuda-11.1/bin/nvcc -arch=sm_53 -dlink -o $(OBJS) $(USER_OBJS) -lcudart -lcudadevrt
+	/usr/local/cuda-11.1/bin/nvcc -gencode arch=compute_53,code=compute_53 -gencode arch=compute_53,code=sm_53 $(OBJS) $(USER_OBJS) $(LIBS) -o GPUart_Git -lcudart -lcudadevrt
 	@echo 'Finished building target: $@'
 	@echo ' '
 
